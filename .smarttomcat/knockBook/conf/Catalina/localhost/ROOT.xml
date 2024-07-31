@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context docBase="C:\Users\chaed\IdeaProjects\apache-tomcat-9.0.91">
+  <Resources cacheMaxSize="10240">
+    <PostResources base="C:/Users/chaed/IdeaProjects/knockBook/src/main/webapp/WEB-INF/lib/slf4j-api-1.7.7.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/slf4j-api-1.7.7.jar"/>
+    <PostResources base="C:/Users/chaed/IdeaProjects/knockBook/src/main/webapp/WEB-INF/lib/commons-fileupload-1.5.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/commons-fileupload-1.5.jar"/>
+    <PostResources base="C:/Users/chaed/IdeaProjects/knockBook/src/main/webapp/WEB-INF/lib/cos.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/cos.jar"/>
+    <PostResources base="C:/Users/chaed/IdeaProjects/knockBook/src/main/webapp/WEB-INF/lib/javax.activation-1.2.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/javax.activation-1.2.0.jar"/>
+    <PostResources base="C:/Users/chaed/IdeaProjects/knockBook/src/main/webapp/WEB-INF/lib/javax.mail-1.6.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/javax.mail-1.6.2.jar"/>
+  </Resources>
+</Context>
