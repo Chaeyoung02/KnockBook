@@ -111,33 +111,33 @@
                         <th>삭제</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <%@page import="com.book.admin.book.vo.Book, java.util.*" %>
-                    <% List<Map<String, String>> list = (List<Map<String, String>>) request.getAttribute("resultList");
-                       if (list != null) {
-                           for (Map<String, String> row : list) { %>
-                            <tr>
-                                <td><img src="<%= row.get("books_img") %>" alt="책 이미지" width="100vw"></td>
-                                <td><%= row.get("books_title") %></td>
-                                <td><%= row.get("books_author") %></td>
-                                <td><%= row.get("books_publisher_name") %></td>
-                                <td><%= row.get("books_category") %></td>
-                               <td><form action="/book/bookCheck" method="post">
-										<input type="hidden" name="books_no" value="<%= row.get("books_no") %>">
-	                                	<input type="submit" value="수정">
-	                                </form>
-                              	</td>
-                                <td><form action="/book/delete" method="post">
-		                            	<input type="hidden" name="books_no" value="<%= row.get("books_no") %>">
-		                            	<input type="submit" value="삭제">
-		                            </form>
-	                           </td>
-                            </tr>
-                        <% }
-                       } else { %>
-                        <div class="no-results">검색한 결과가 없습니다.</div>
-                    <% } %>
-                </tbody>
+               <tbody>
+                                   <%@page import="com.book.admin.book.vo.Book, java.util.*" %>
+                                   <% List<Book> list = (List<Book>)request.getAttribute("resultList");
+                                      if (list != null) {
+                                          for (Book book : list) { %>
+                                           <tr>
+                                                  <td><img src="<%= book.getBooks_image() %>" width="100vw" alt="책 이미지"></td>
+                                               <td><%= book.getBooks_title() %></td>
+                                               <td><%= book.getBooks_author() %></td>
+                                               <td><%= book.getBooks_publisher_name() %></td>
+                                               <td><%= book.getBooks_category_name() %></td>
+                                               <td><form action="/book/bookCheck" method="post">
+                                             <input type="hidden" name="books_no" value="<%= book.getBooks_no() %>">
+                                                     <input type="submit" value="수정">
+                                                  </form>
+                                                </td>
+                                               <td><form action="/book/delete" method="post">
+                                                    <input type="hidden" name="books_no" value="<%= book.getBooks_no() %>">
+                                                    <input type="submit" value="삭제">
+                                                 </form>
+                                             </td>
+                                           </tr>
+                                       <% }
+                                      } else { %>
+                                       <div class="no-results">검색한 결과가 없습니다.</div>
+                                   <% } %>
+                               </tbody>
             </table>
         </div>
     </div>

@@ -43,7 +43,7 @@ public class BookListServlet extends HttpServlet {
        
         b.setTotalData(new BookDao().selectBoardCount(b, content));
 
-        List<Map<String, String>> list = new BookDao().selectBook(b, content);
+        List<Book> list = new BookDao().selectBook(b, content);
    
         request.setAttribute("paging", b);
         request.setAttribute("resultList", list);

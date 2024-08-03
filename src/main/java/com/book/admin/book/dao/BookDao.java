@@ -63,8 +63,8 @@ public class BookDao {
        return result;
     }
 
-    public List<Map<String, String>> selectBook(Book b, String content) {
-        List<Map<String, String>> list = new ArrayList<>();
+    public List<Book> selectBook(Book b, String content) {
+        List<Book> list = new ArrayList<>();
         Connection conn = getConnection();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -84,15 +84,15 @@ public class BookDao {
             rs = pstmt.executeQuery();
 
             while(rs.next()){
-                Map<String, String> row = new HashMap<>();
-                row.put("books_no", rs.getString("도서번호"));
-                row.put("books_title", rs.getString("도서이름"));
-                row.put("books_author", rs.getString("도서저자"));
-                row.put("books_publisher_name", rs.getString("출판사"));
-                row.put("books_img", rs.getString("도서이미지"));
-                row.put("books_category", rs.getString("카테고리"));
+                Book book = new Book();
+                book.setBooks_no(rs.getInt("도서번호"));
+                book.setBooks_title(rs.getString("도서이름"));
+                book.setBooks_author(rs.getString("도서저자"));
+                book.setBooks_publisher_name(rs.getString("출판사"));
+                book.setBooks_image(rs.getString("도서이미지"));
+                book.setBooks_category_name(rs.getString("카테고리"));
 
-                list.add(row);
+                list.add(b);
 
             }
         }catch (Exception e){

@@ -10,25 +10,9 @@ public class Book extends Paging {
     private int books_category_no;
     private String books_publisher_name;
     private String books_image;
-
+    private String books_category_name;
     public Book() {
 
-    }
-    public Book(String books_image, String books_publisher_name, int books_category_no, String books_title, String books_author, int books_no) {
-        this.books_image = books_image;
-        this.books_publisher_name = books_publisher_name;
-        this.books_category_no = books_category_no;
-        this.books_title = books_title;
-        this.books_author = books_author;
-        this.books_no = books_no;
-    }
-
-    public String getBooks_author() {
-        return books_author;
-    }
-
-    public void setBooks_author(String books_author) {
-        this.books_author = books_author;
     }
 
     public int getBooks_no() {
@@ -63,12 +47,28 @@ public class Book extends Paging {
         this.books_image = books_image;
     }
 
+    public String getBooks_category_name() {
+        return books_category_name;
+    }
+
+    public void setBooks_category_name(String books_category_name) {
+        this.books_category_name = books_category_name;
+    }
+
     public String getBooks_publisher_name() {
         return books_publisher_name;
     }
 
     public void setBooks_publisher_name(String books_publisher_name) {
         this.books_publisher_name = books_publisher_name;
+    }
+
+    public String getBooks_author() {
+        return books_author;
+    }
+
+    public void setBooks_author(String books_author) {
+        this.books_author = books_author;
     }
 
     @Override
@@ -80,6 +80,7 @@ public class Book extends Paging {
                 ", books_category_no=" + books_category_no +
                 ", books_publisher_name='" + books_publisher_name + '\'' +
                 ", books_image='" + books_image + '\'' +
+                ", books_category_name='" + books_category_name + '\'' +
                 '}';
     }
 }
