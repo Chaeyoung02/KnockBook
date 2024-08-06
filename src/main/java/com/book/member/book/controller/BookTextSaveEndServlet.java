@@ -54,23 +54,26 @@ public class BookTextSaveEndServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         if ("submit".equals(action)) {
             result = new BookTextDao().inputBookText(bt);
-            result2 = new BookTextDao().deleteSaveInfo(saveNo);
-            if (result > 0 && result2 > 0) {
-                writer.println("<script>alert('제출되었습니다.'); location.href='/user/textList';</script>");
+
+            if (result > 0) {
+                result2 = new BookTextDao().deleteSaveInfo(saveNo);
+                if(result2 > 0) {
+                    writer.println("<script>alert('제출되었습니다.'); location.href='/user/textList';</script>");
+                }
             } else {
                 writer.println("<script>alert('오류가 발생했습니다.'); location.href='/user/saveTextList';</script>");
             }
         } else if ("save".equals(action)) {
-             result = new BookTextDao().updateSaveInfo(saveNo, bt);
+            result = new BookTextDao().updateSaveInfo(saveNo, bt);
             if (result > 0) {
                 writer.println("<script>alert('저장되었습니다.'); location.href='/user/saveTextList';</script>");
             } else {
                 writer.println("<script>alert('오류가 발생했습니다.'); location.href='/user/saveTextList';</script>");
             }
         }else if ("delete".equals(action)) {
-            result = new BookTextDao().deleteSaveInfo(saveNo);
+            result = new BookTextDao().markSaveInfoForDeletion (saveNo);
             if (result > 0) {
-                writer.println("<script>alert('삭제되었습니다.'); location.href='/user/saveTextList';</script>");
+                writer.println("<script>alert('3일 후 삭제 예정입니다.'); location.href='/user/saveTextList';</script>");
             } else {
                 writer.println("<script>alert('오류가 발생했습니다.'); location.href='/user/saveTextList';</script>");
             }
@@ -79,7 +82,7 @@ public class BookTextSaveEndServlet extends HttpServlet {
         }
 
 
-       
+
         writer.close();
 
 

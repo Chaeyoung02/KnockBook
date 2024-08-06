@@ -578,4 +578,36 @@ public class BookTextDao {
         }
         return result;
     }
+    public int markSaveInfoForDeletion (int saveNo){
+        int result = 0;
+        Connection conn = getConnection();
+        PreparedStatement pstmt = null;
+        try{
+            String sql = "UPDATE saveBooktext SET is_deleted = 1, deleted_at = ? WHERE save_no = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setTimestamp(1, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setInt(2, saveNo);
+            result = pstmt.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public void deleteOldSaveBooktexts() {
+
+        Connection conn = getConnection();
+        PreparedStatement pstmt = null;
+        try{
+            String sql = "DELETE FROM saveBooktext WHERE is_deleted = 1 AND deleted_at <= ?";
+
+            pstmt = conn.prepareStatement(sql);
+            LocalDateTime thresholdDate = LocalDateTime.now().minusMinutes(5);
+            pstmt.setTimestamp(1, Timestamp.valueOf(thresholdDate));
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
