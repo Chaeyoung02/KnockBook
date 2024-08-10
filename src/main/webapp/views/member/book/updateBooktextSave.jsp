@@ -59,38 +59,38 @@
         text-align: center;
         margin-top: 20px;
     }
-    	.word h3 {
+       .word h3 {
          margin: 30px 0px;
          text-align: center;
          font-size: 30px;
            font-weight: bold;
-	}
-		.form_first {
-	 display:flex;
-	 gap: 2vw;
-	}
-	.form_second {
-	 display:flex;
-	 gap: 2vw;
-	}
-	.form_left {
-		gap:1vw;
-		display : flex;
-		flex-direction : column;
-		
-	}
-	.form_right {
-		margin-bottom : 20px;
-		width: 50%;
-		
-	}
-	.form_write{
-		gap: 1.5vw;
-		display : flex;
-		flex-direction : row;
-	}
+   }
+      .form_first {
+    display:flex;
+    gap: 2vw;
+   }
+   .form_second {
+    display:flex;
+    gap: 2vw;
+   }
+   .form_left {
+      gap:1vw;
+      display : flex;
+      flex-direction : column;
 
-	
+   }
+   .form_right {
+      margin-bottom : 20px;
+      width: 50%;
+
+   }
+   .form_write{
+      gap: 1.5vw;
+      display : flex;
+      flex-direction : row;
+   }
+
+
     </style>
 </head>
 <body>
@@ -144,7 +144,7 @@
                     </div>
                     <div>
                         <label for="bw_start_date">읽기시작</label>
-                        <input type="date" id="bw_start_date" name="bw_start_date" class="input-field" value="<%= book.get("bw_start_date") %>" required />
+                        <input type="date" id="bw_start_date" name="bw_start_date" class="input-field" value="<%= book.get("bw_start_date") %>" required onchange="setEndDateMin()"/>
                     </div>
                     <div>
                         <label for="bw_end_date">읽기종료</label>
@@ -159,8 +159,14 @@
             <div class="form_right">
                 <img src="<%= book.get("bk_img") %>" alt="Book Image" />
                 <div class="bw_btn">
+                    <% if(book.get("is_deleted").equals("0")) {%>
+
+                       <button type="button" class="btn btn-secondary" onclick="deleteForm();">삭제</button>
+                    <% }else {%>
+                       <button type="button" class="btn btn-secondary" onclick="deleteForm();" disabled>삭제</button>
+
+                    <%} %>
                     <button type="button" class="btn btn-secondary" onclick="saveForm();">저장</button>
-                    <button type="button" class="btn btn-secondary" onclick="deleteForm();">삭제</button>
                     <button type="button" class="btn btn-primary" onclick="submitForm();">제출</button>
                 </div>
             </div>
@@ -169,6 +175,10 @@
     </section>
 
     <script>
+       function setEndDateMin() {
+          var startDate = document.getElementById("bw_start_date").value;
+          document.getElementById("bw_end_date").min = startDate;
+      }
         function validateForm() {
             var form = document.getElementById('create_account_form');
             var inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
@@ -178,6 +188,14 @@
                     return false;
                 }
             }
+            var startDate = new Date(document.getElementById("bw_start_date").value);
+            var endDate = new Date(document.getElementById("bw_end_date").value);
+
+            if (endDate < startDate) {
+                alert('읽은 기간을 다시 설정해주세요.');
+                return false;
+            }
+
             return true;
         }
 
@@ -190,6 +208,11 @@
         }
 
         function saveForm() {
+           var isDeleted = "<%= book.get("is_deleted") %>";
+
+           if (isDeleted === "1") {
+              alert("삭제된 게시물입니다. 다시 저장합니다.");
+           }
             var form = document.getElementById('create_account_form');
             form.action = '/user/saveTextEnd?action=save';
             form.submit();

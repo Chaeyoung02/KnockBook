@@ -31,17 +31,10 @@ public class BookTextSaveListServlet extends HttpServlet {
  
             String content = request.getParameter("bk_content");
             User user_saveText = (User) session.getAttribute("user");
-       
-            String recommendation = request.getParameter("recommendation");
 
             if (content == null) {
                 content = ""; 
             }
-   
-            if (recommendation == null || recommendation.isEmpty()) {
-                recommendation = "0"; 
-            }
-
 
             BookText bt = new BookText();
             String nowPage = request.getParameter("nowPage");
@@ -50,15 +43,14 @@ public class BookTextSaveListServlet extends HttpServlet {
             }
 
 
-            bt.setTotalData(new BookTextDao().saveBooktextCount(user_saveText.getUser_no(),bt, content, recommendation));
+            bt.setTotalData(new BookTextDao().saveBooktextCount(user_saveText.getUser_no(),content));
 
           
-            List<Map<String, String>> list = new BookTextDao().selectSaveText(user_saveText.getUser_no(), bt, content, recommendation);
+            List<Map<String, String>> list = new BookTextDao().selectSaveText(user_saveText.getUser_no(), bt, content);
 
             request.setAttribute("paging", bt);
             request.setAttribute("resultList", list);
-            request.setAttribute("searchContent", content); 
-            request.setAttribute("selectedRecommendation", recommendation); 
+            request.setAttribute("searchContent", content);
      
 
             RequestDispatcher rd = request.getRequestDispatcher("/views/member/book/booktextSaveList.jsp");

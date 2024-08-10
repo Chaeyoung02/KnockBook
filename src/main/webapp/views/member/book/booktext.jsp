@@ -142,7 +142,7 @@
 	           </div>
 	           <div>
 		             <label for = "bk_recommendation">읽기시작</label>
-		            <input type="date" id="bw_start_date" name="bw_start_date" class="input-field" required/>
+		            <input type="date" id="bw_start_date" name="bw_start_date" class="input-field" required onchange="setEndDateMin()"/>
 	           </div>
 	           <div>
 		             <label for = "bk_recommendation">읽기종료</label>
@@ -171,6 +171,10 @@
 
     </section>
 <script>
+      function setEndDateMin() {
+          var startDate = document.getElementById("bw_start_date").value;
+          document.getElementById("bw_end_date").min = startDate;
+      }
     document.addEventListener('DOMContentLoaded', function() {
                 var today = new Date();
 
@@ -192,6 +196,14 @@
                         return false;
                     }
                 }
+                var startDate = new Date(document.getElementById("bw_start_date").value);
+                var endDate = new Date(document.getElementById("bw_end_date").value);
+
+                if (endDate < startDate) {
+                    alert('읽은 기간을 다시 설정해주세요.');
+                    return false;
+                }
+
                 return true;
             }
         function saveDraft() {

@@ -92,7 +92,7 @@ public class BookTextDao {
 
     return list;
     }
-    public  List<Map<String, String>> selectSaveText(int userNo, BookText bt, String content, String recommendation) {
+    public  List<Map<String, String>> selectSaveText(int userNo, BookText bt, String content) {
 
         List<Map<String, String>> list = new ArrayList<>();
         Connection conn = getConnection();
@@ -103,25 +103,21 @@ public class BookTextDao {
         try{
             String sql = "SELECT a.save_no AS 저장번호, b.user_nickname AS 작성자 ,d.books_img AS 책이미지," +
                     " d.books_title AS 책제목, c.description AS 추천도 ,a.upload_save AS 업로드 ," +
-                    "d.books_publisher_name AS 출판사 FROM `saveBooktext` a \n" +
+                    "d.books_publisher_name AS 출판사, a.is_deleted AS 삭제여부 FROM `saveBooktext` a \n" +
                     "JOIN users b ON a.user_no = b.user_no \n" +
                     "JOIN recommendation c ON a.recommendation_no = c.recommendation_no\n" +
-                    "JOIN book d ON d.books_no = a.books_no WHERE a.user_no = ? AND upload_save >= ?";
+                    "JOIN book d ON d.books_no = a.books_no WHERE a.user_no = ?";
 
             if(content != null) {
                 sql += " AND d.books_title LIKE CONCAT('%','"+content+"','%')";
             }
            
-            if (recommendation != null && !recommendation.isEmpty() && !"0".equals(recommendation)) {
-                sql += " AND c.recommendation_no = '"+recommendation+"'";
 
-            }
             sql += " LIMIT "+bt.getLimitPageNo()+", "+bt.getNumPerPage();
 
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,userNo);
-            pstmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now().minusDays(7)));
             rs = pstmt.executeQuery();
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -134,6 +130,7 @@ public class BookTextDao {
                 row.put("bk_title", rs.getString("책제목"));
                 row.put("bk_publisher_name", rs.getString("출판사"));
                 row.put("bk_img", rs.getString("책이미지"));
+                row.put("is_deleted", rs.getString("삭제여부"));
                 row.put("upload", sdf.format(upload) );
 
                 list.add(row);
@@ -317,7 +314,7 @@ public class BookTextDao {
         }
         return result;
     }
-    public int saveBooktextCount(int userNo,BookText option, String content, String recommendation) {
+    public int saveBooktextCount(int userNo, String content) {
         int result = 0;
         Connection conn = getConnection();
         PreparedStatement pstmt = null;
@@ -328,10 +325,6 @@ public class BookTextDao {
                     "WHERE a.user_no =? ";
             if(content != null) {
                 sql += "AND b.books_title LIKE CONCAT('%','"+content+"','%')";
-            }
-            // 추천도가 선택된 경우 SQL에 조건을 추가합니다.
-            if (recommendation != null && !recommendation.isEmpty() && !"0".equals(recommendation)) {
-                sql += " AND a.recommendation_no = '"+recommendation+"'";
             }
 
             pstmt = conn.prepareStatement(sql);
@@ -494,7 +487,7 @@ public class BookTextDao {
                     "a.save_end_read AS 읽기종료, a.save_content AS 저장내용,  c.description AS 추천도, c.recommendation_no AS 추천도번호, " +
                     "d.books_title AS 도서제목, b.user_nickname AS 작성자,e.book_category_name AS 카테고리명, " +
                     "e.books_category_no AS 카테고리번호, d.books_img AS 이미지, d.books_publisher_name AS 출판사, " +
-                    "b.user_no AS 사용자번호, d.books_author AS 저자 FROM saveBooktext a\n" +
+                    "b.user_no AS 사용자번호, d.books_author AS 저자, a.is_deleted AS 삭제여부 FROM saveBooktext a\n" +
                     "JOIN users b ON a.user_no = b.user_no \n" +
                     "JOIN recommendation c ON a.recommendation_no = c.recommendation_no\n" +
                     "JOIN book d ON d.books_no = a.books_no " +
@@ -521,8 +514,10 @@ public class BookTextDao {
                 row.put("bw_end_date", sdf.format(end) );
                 row.put("bw_content", rs.getString("저장내용"));
                 row.put("bk_img", rs.getString("이미지"));
-                row.put("bk_no", rs.getString("도서번호")); 
+                row.put("bk_no", rs.getString("도서번호"));
                 row.put("user_no", rs.getString("사용자번호"));
+                row.put("is_deleted", rs.getString("삭제여부"));
+
                 list.add(row);
 
             }
@@ -539,14 +534,15 @@ public class BookTextDao {
         PreparedStatement pstmt = null;
         try {
 
-            String sql = "UPDATE saveBookText SET save_content = ?, recommendation_no = ?,save_first_read= ?, save_end_read = ? WHERE save_no = ?";
+            String sql = "UPDATE saveBookText SET save_content = ?, recommendation_no = ?,save_first_read= ?, save_end_read = ? ,is_deleted =? WHERE save_no = ?";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, bt.getBook_content());
             pstmt.setInt(2, bt.getRecommendation_no());
             pstmt.setDate(3, Date.valueOf(bt.getBook_first_read()));
             pstmt.setDate(4, Date.valueOf(bt.getBook_end_read()));
-            pstmt.setInt(5, save_no);
+            pstmt.setInt(5, 0);
+            pstmt.setInt(6, save_no);
             result = pstmt.executeUpdate();
 
 
@@ -595,7 +591,7 @@ public class BookTextDao {
         }
         return result;
     }
-    public void deleteOldSaveBooktexts() {
+    public void  deleteOldSaveBooktexts() {
 
         Connection conn = getConnection();
         PreparedStatement pstmt = null;

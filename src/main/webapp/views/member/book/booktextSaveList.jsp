@@ -108,7 +108,7 @@
 	  </div>
     <div class="search">
         <form action="/user/saveTextList" name="search_board_form" method="get" class="search_board_form">
-            <input type="text" name="bk_content" placeholder="검색하고자 하는 도서 이름을 검색하세요.">
+            <input type="text" name="bk_content" value="<%= request.getAttribute("searchContent") %>"  placeholder="검색하고자 하는 도서 이름을 검색하세요.">
             <input type="submit" value="검색">
         </form>
     </div>
@@ -132,7 +132,11 @@
                     <% for (Map<String, String> row : list) { %>
                         <tr>
                             <td><a href="/user/saveEditCheck?save_no=<%= row.get("save_no") %>"><img src="<%= row.get("bk_img") %>" alt="책 이미지" width="100vw"></a></td>
-                            <td><%= row.get("bk_title") %></td>
+                            <% if(row.get("is_deleted").equals("0")){%>
+                                <td><%= row.get("bk_title") %></td>
+                            <%}else {%>
+                                <td style="color:red;"><%= row.get("bk_title") %></td>
+                            <%}%>
                             <td><%= row.get("bt_writer") %></td>
                             <td><%= row.get("bk_publisher_name") %></td>
                             <td><%= row.get("upload") %></td>
