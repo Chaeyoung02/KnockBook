@@ -6,12 +6,13 @@
 ## 소개
 - 단순히 책을 읽고 리뷰를 남기는 것을 넘어, 독자들 사이의 활발한 소통과 지식 교류를 가능하게 하는 플랫폼
   
-| 언어  | JAVA, JavaScript |
-| 기술 | Servlet, JSP   |
-| 데이터베이스 |  MySQL  |
-| 서버  | Apache Tomcat 9 |
-| 운영체제 | Window OS   |
-| 협업 |  GitHub, Git GUI  |
+| 언어        | JAVA, JavaScript   |
+| 기술        | Servlet, JSP       |
+| 데이터베이스 | MySQL              |
+| 서버        | Apache Tomcat 9    |
+| 운영체제     | Windows OS         |
+| 협업        | GitHub, Git GUI    |
+
 
 
 ### 기술
