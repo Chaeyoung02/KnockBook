@@ -18,6 +18,7 @@
 | **운영체제** | Windows OS              |
 | **협업 도구**| GitHub, Git GUI         |
 <br>
+
 ### DB설계
 ![Untitled (2)](https://github.com/user-attachments/assets/fc787102-0c67-4e90-95af-fe64a32d7ae2)
 
