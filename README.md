@@ -1,6 +1,6 @@
-### 📖KnockBook
+## 📖KnockBook
 <hr>
-![Uploading Untitled.png…]()
+![My Logo](https://www.notion.so/Knock-Book-9c153a8502934b3bba6e1847496f261c?pvs=4#3d44dea177a34ec08729a243260cdab6)
 
 <p>프로젝트 기간 : 2024.06.17 ~ 2024.07.23</p>
 ### 소개
